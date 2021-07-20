@@ -1,0 +1,12 @@
+
+
+$Computers = get-adcomputer  | select name, DNSHostName
+
+foreach ($compName in $Computers){
+    Write-output $compName.DNSHostName
+    $cName = Get-WmiObject -Class Win32_ComputerSystem -ComputerName $compName.DNSHostName | select Name
+    $info = Get-WmiObject -Class win32_operatingsystem -ComputerName $compName.DNSHostName| select Description, Caption, OSArchitecture, ServicePackMajorVersion, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+    $hfixes = Get-WmiObject -Class Win32_QuickFixEngineering -ComputerName $compName.DNSHostName
+    $result = $cName, $info, $hfixes
+    $result
+    }
