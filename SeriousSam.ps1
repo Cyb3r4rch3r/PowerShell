@@ -18,7 +18,7 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
   Break
 }
 
-$paths = @("C:\Windows\System32\config\SAM","C:\Windows\System32\config\SYSTEM","\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SAM","\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM")
+$paths = @("C:\Windows\System32\config\SAM","C:\Windows\System32\config\SYSTEM","C:\Windows\System32\config\SECURITY","\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SAM","\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM","\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SECURITY")
 
 foreach ($path in $paths){
     Write-Output "Testing the following path for vulnerable permissions: `n$path"
