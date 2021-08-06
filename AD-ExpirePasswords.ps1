@@ -59,7 +59,7 @@ Function GetInfo {
 }
 
 if ((Test-Path $file) -eq $true){
-  GetInfo
+    GetInfo
 }
 Else {
     Write-Error "File does not Exist. Please choose the correct path."
