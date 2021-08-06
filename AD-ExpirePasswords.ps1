@@ -27,7 +27,7 @@ Function Gather{
     
 $Answer = Read-Host -Prompt "Do you already have a file to work from? (Y|N)"
 
-if ($Answer -like 'y'){
+if ($Answer -eq 'n'){
     Gather
     }
 
@@ -59,7 +59,7 @@ Function GetInfo {
 }
 
 if ((Test-Path $file) -eq $true){
-  
+  GetInfo
 }
 Else {
     Write-Error "File does not Exist. Please choose the correct path."
