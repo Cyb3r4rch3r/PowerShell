@@ -11,8 +11,6 @@
     Sufficient Rights to Query AD
 .FUNCTIONALITY
     Force Password Change for All Users Who Haven't Changed Their Passwords in 'N' Number of Days
-.NOTES
-    Remove the whatif switch to perform the tasks. I left it in because you should always test first!
 #>
 
 $username = $env:username
@@ -27,7 +25,7 @@ Function Gather{
     
 $Answer = Read-Host -Prompt "Do you already have a file to work from? (Y|N)"
 
-if ($Answer -eq 'n'){
+if ($Answer -eq "n"){
     Gather
     }
 
@@ -43,7 +41,7 @@ Function OpenFile{
 Function GetInfo {
     $count = Get-Content $file
     
-    $count.count
+    Write-Output "`n $($count.Count) users in file. `n"
     
     $chunk = Read-Host -Prompt "How many users do you want to apply this to? (Numerical values only)"
     
@@ -55,7 +53,7 @@ Function GetInfo {
     
     $count = Get-Content $file
     
-    $count.Count
+    Write-Output "`n $($count.Count) users Remaining"
 }
 
 if ((Test-Path $file) -eq $true){
