@@ -11,6 +11,8 @@
     Sufficient Rights to Query AD
 .FUNCTIONALITY
     Force Password Change for All Users Who Haven't Changed Their Passwords in 'N' Number of Days
+.NOTES
+    Remove the whatif switch to perform the tasks. I left it in because you should always test first!
 #>
 
 $username = $env:username
