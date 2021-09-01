@@ -64,3 +64,5 @@ Function Cleanup {
 		Set-ADUser $uName.samaccountname -Description "Disabled by $admin on $day"
     }
 }
+
+Cleanup
