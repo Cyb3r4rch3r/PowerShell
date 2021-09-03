@@ -52,15 +52,15 @@ Function Confirm-Applications {
     Foreach ($appId in $appIds){
         Get-AzureADServicePrincipal -Filter "appId eq '$appId'"
 
-        $global:servicePrinciple = Get-AzureADServicePrincipal -Filter "appId eq '$appId'"
+        $global:servicePrincipal = Get-AzureADServicePrincipal -Filter "appId eq '$appId'"
         
-        #Create a Service Principle for the application if it does not already exist
-        if (-not $global:servicePrinciple) {
+        #Create a Service Principal for the application if it does not already exist
+        if (-not $global:servicePrincipal) {
             $servicePrinciple = New-AzureADServicePrincipal -AppId $appId
         }
     
     #Require Application Assignment
-    Set-AzureADServicePrincipal -ObjectId $global:servicePrinciple.ObjectId -AppRoleAssignmentRequired $true
+    Set-AzureADServicePrincipal -ObjectId $global:servicePrincipal.ObjectId -AppRoleAssignmentRequired $true
     }
 }
 
@@ -75,7 +75,7 @@ Function Confirm-DirRole{
     
     #Assign the Admins to the Applications
     foreach ($admin in $admins){
-        New-AzureADServiceAppRoleAssignment -ObjectId $global:servicePrinciple.ObjectId -ResourceId $global:servicePrinciple.ObjectId -Id ([Guid]::Empty.ToString()) -PrincipalId $admin.ObjectID
+        New-AzureADServiceAppRoleAssignment -ObjectId $global:servicePrincipal.ObjectId -ResourceId $global:servicePrincipal.ObjectId -Id ([Guid]::Empty.ToString()) -PrincipalId $admin.ObjectID
         }
 }
 
@@ -91,7 +91,7 @@ Function Confirm-ListAdmins {
     #Assign the Admins to the Applications
     Foreach ($admin in $admins) {
         $user = Get-AzureADUser -objectId $admin.userprincipalname
-        New-AzureADServiceAppRoleAssignment -ObjectId $global:servicePrinciple.ObjectId -ResourceId $global:servicePrinciple.ObjectId -Id ([Guid]::Empty.ToString()) -PrincipalId $user.ObjectId
+        New-AzureADServiceAppRoleAssignment -ObjectId $global:servicePrincipal.ObjectId -ResourceId $global:servicePrincipal.ObjectId -Id ([Guid]::Empty.ToString()) -PrincipalId $user.ObjectId
     }
 }
 
