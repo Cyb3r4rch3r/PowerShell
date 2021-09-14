@@ -14,9 +14,31 @@
 #>
 
 
+param (
+	[Parameter(Mandatory = $true,
+		HelpMessage = 'Admin or Auditor Username')]
+	[string] $admin,
+	[Parameter(Mandatory = $false,
+		HelpMessage = 'File containing list of accounts to exclude. Each account must be on its own line.')]
+	[string] $file
+)
+
 $date = (Get-Date).AddDays(-90) 
 
 $staleUsers = Get-ADUser -Filter {enabled -eq $true} | Where-Object {$_.lastlogondate -le $date}
+
+if ($file -like "*"){
+	$exceptions = Get-Content -Path $file
+	}
+else {
+    $exceptions = $null
+}
+
+Function Generate-Users {
+    if (-NOT($null -eq $exceptions)) {
+        $staleUsers = Compare-Object -ReferenceObject $staleUsers -DifferenceObject $exceptions -PassThru
+    }
+}
 
 function Generate-Pass { 
 
@@ -39,6 +61,9 @@ Return $password2
 
 
 Function Start-Cleanup {
+    
+    Generate-Users
+
     foreach ($uName in $staleUsers) {
         Set-ADAccountPassword -Identity $uName.samaccountname -NewPassword (Generate-Pass)
         Set-ADUser $uName.samaccountname -PasswordNeverExpires $false
